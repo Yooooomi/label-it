@@ -1,0 +1,26 @@
+
+
+.root {
+    background: #222831;
+}
+
+.appcontent {
+    width: 40%;
+    margin: auto;
+    position: relative;
+}
+
+.content {
+    background: white;
+    padding: 50px;
+    min-height: 95vh;
+}
+
+.footer {
+    position: fixed;
+    height: 5vh;
+    bottom: 0px;
+    left: 30%;
+    right: 30%;
+    background: lightgrey;
+}

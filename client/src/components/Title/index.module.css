@@ -1,0 +1,13 @@
+
+.root {
+    margin-bottom: var(--margin);
+}
+
+.title {
+    font-size: 1.4em;
+}
+
+.subtitle {
+    font-size: 0.9em;
+    color: lightgrey;
+}

@@ -1,0 +1,12 @@
+
+
+.root {
+    border-radius: 7px;
+    border: solid lightgrey 2px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-left: var(--margin);
+    height: var(--label-height);
+}

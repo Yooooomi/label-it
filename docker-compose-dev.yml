@@ -1,9 +1,13 @@
-version: "3.8"
+version: "3"
 
 services:
   server:
-    command: yarn dev
+    entrypoint: /bin/sh -c "knex migrate:latest && yarn dev"
+    volumes:
+    - ./server/src:/app/src
   
   client:
     environment:
     - API_ENDPOINT
+    volumes:
+    - ./client/src:/app/src

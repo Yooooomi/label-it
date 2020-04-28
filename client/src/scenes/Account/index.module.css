@@ -1,0 +1,22 @@
+
+
+.root {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 95vh;
+    width: 40%;
+    margin: auto;
+}
+
+.title {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 25%;
+    font-size: 1.6em;
+}
+
+.entry {
+    margin-bottom: var(--margin);
+}

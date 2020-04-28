@@ -5,16 +5,19 @@ const { validate, logged, withLabel } = require('../middlewares');
 
 const createLabelSchema = Joi.object().keys({
   name: Joi.string().required(),
+  color: Joi.string().length(7).required(),
+  time: Joi.only(['hour', 'day', 'week', 'month']).required(),
 });
 
 router.post('/label', validate(createLabelSchema), logged, async (req, res) => {
   const { user } = req;
-  const { name } = req.values;
+  const { name, color } = req.values;
 
   try {
-    const newLabel = await db.addLabel(user.id, name);
+    const newLabel = await db.addLabel(user.id, name, color);
     return res.status(201).send(newLabel);
   } catch (e) {
+    console.log(e);
     return res.status(500).end();
   }
 });

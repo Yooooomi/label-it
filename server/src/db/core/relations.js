@@ -1,5 +1,8 @@
-const knex = require('../../../knexfile');
+const Knex = require('knex');
 const { Model } = require('objection');
+const knexfile = require('../../../knexfile');
+
+const knex = Knex(knexfile);
 
 Model.knex(knex);
 
@@ -8,7 +11,7 @@ class User extends Model {
     return 'users';
   }
 
-  static getRelations() {
+  static relationMappings() {
     return {
       labels: {
         modelClass: Label,
@@ -20,10 +23,14 @@ class User extends Model {
       },
       pins: {
         modelClass: Pin,
-        relation: Model.HasManyRelation,
+        relation: Model.ManyToManyRelation,
         join: {
           from: 'users.id',
-          to: 'pins.user_id',
+          through: {
+            from: 'labels.user_id',
+            to: 'labels.id',
+          },
+          to: 'pins.label_id',
         },
       },
     };
@@ -35,7 +42,7 @@ class Label extends Model {
     return 'labels';
   }
 
-  static getRelations() {
+  static relationMappings() {
     return {
       user: {
         modelClass: User,
@@ -70,7 +77,7 @@ class Pin extends Model {
     return 'pins';
   }
 
-  static getRelations() {
+  static relationMappings() {
     return {
       user: {
         modelClass: User,

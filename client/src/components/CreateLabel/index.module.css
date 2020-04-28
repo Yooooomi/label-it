@@ -1,0 +1,27 @@
+
+
+.root {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 7px;
+    border: solid lightgrey 2px;
+    height: var(--label-height);
+    padding-left: var(--margin);
+}
+
+.color {
+    margin: 0px var(--margin);
+    border-radius: 7px;
+    height: calc(var(--label-height) / 3 * 2);
+    width: calc(var(--label-height) / 3 * 4);
+    border: solid lightgrey 2px;
+}
+
+.name {
+    margin-right: var(--margin);
+}
+
+.time {
+    width: 200px;
+}

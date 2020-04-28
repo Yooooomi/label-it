@@ -4,6 +4,7 @@ const Joi = require('joi');
 const db = require('../db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const { jwtsecret } = require('../tools/jwt');
 
 const loginSchema = Joi.object().keys({
   username: Joi.string().required(),
@@ -22,11 +23,12 @@ router.post('/login', validate(loginSchema), async (req, res) => {
 
     const token = jwt.sign({
       id: user.id,
-    });
+    }, jwtsecret);
     res.cookie('token', token);
 
     return res.status(200).send(req.user);
   } catch (e) {
+    console.log(e);
     return res.status(500).end();
   }
 });
@@ -45,10 +47,11 @@ router.post('/register', validate(registerSchema), async (req, res) => {
     if (alreadyExisting) {
       return res.status(409).end();
     }
-    const hashedPassword = await bcrypt.hash(password);
+    const hashedPassword = await bcrypt.hash(password, 1);
     await db.addUser(username, hashedPassword);
     return res.status(201).end();
   } catch (e) {
+    console.log(e);
     return res.status(500).end();
   }
 });
