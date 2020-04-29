@@ -1,5 +1,81 @@
 
-
 .root {
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  height: 95%;
+  position: relative;
+  width: 100%;
+}
 
+.middle {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.navbutton {
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  height: 100%;
+  width: 100%;
+}
+
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 5%;
+  border: solid lightgrey 2px;
+  width: 100%;
+}
+
+.cellcontainer {
+  text-align: center;
+  width: 100%;
+  position: relative;
+}
+
+.cell {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: 0px;
+  left: 0px;
+  bottom: 0px;
+  right: 0px;
+}
+
+.dayOtherMonth {
+  color: lightgrey;
+}
+
+.day {
+  border: solid lightgrey 1px;
+}
+
+.dayname {
+  font-size: 0.8em;
+  padding-bottom: 50%;
+}
+
+.current {
+  font-weight: bold;
+}
+
+.label {
+  position: absolute;
+  top: 0px;
+  left: 2%;
+  right: 2%;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: normal;
 }

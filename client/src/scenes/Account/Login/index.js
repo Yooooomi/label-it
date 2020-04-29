@@ -11,15 +11,13 @@ function Login({ history }) {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
-  console.log('here');
-
   const onSubmit = useCallback(async ev => {
     ev.preventDefault();
     try {
       await api.login(username, password);
       const me = await api.me();
       setProfile(me);
-      history.push(urls.home);
+      history.push(urls.labels);
     } catch (e) {
       console.error(e);
     }

@@ -13,7 +13,7 @@ function Register({ history }) {
     ev.preventDefault();
     try {
       await api.register(username, password);
-      history.push(urls.login);
+      history.push(urls.account.login);
     } catch (e) {
       console.error(e);
     }

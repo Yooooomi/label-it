@@ -7,7 +7,13 @@ const logged = async (req, res, next) => {
   const { token } = req.cookies;
 
   try {
+    if (!token) {
+      return res.status(401).end();
+    }
     const decoded = jwt.decode(token, jwtsecret);
+    if (!decoded) {
+      return res.status(401).end();
+    }
     const user = await db.getUser(decoded.id, '[labels,pins]');
     req.user = user;
     return next();

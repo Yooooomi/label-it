@@ -14,10 +14,12 @@
     background: white;
     padding: 50px;
     min-height: 95vh;
+    position: relative;
 }
 
 .footer {
     position: fixed;
+    overflow: hidden;
     height: 5vh;
     bottom: 0px;
     left: 30%;

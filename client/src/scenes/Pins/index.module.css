@@ -1,5 +1,13 @@
 
 
 .root {
+    height: calc(95vh - 100px - 48px);
+}
 
+.tabs {
+    width: 100%;
+}
+
+.tab {
+    width: 33.333333333333%;
 }

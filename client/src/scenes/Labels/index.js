@@ -21,7 +21,9 @@ function Labels() {
 
   const onLabel = useCallback(async label => {
     try {
-      await api.createPin(label.id, new Date());
+      const date = new Date();
+      date.setDate(date.getDate() - 7);
+      //await api.createPin(label.id, date);
     } catch (e) {
       console.error(e);
     }
