@@ -5,6 +5,7 @@ import { Tabs, Tab } from '@material-ui/core';
 import s from './index.module.css';
 import { profileContext } from '../../services/context/profile/context';
 import Calendar from '../../components/Calendar';
+import Title from '../../components/Title';
 
 const TimeTypes = [
   'month',
@@ -65,13 +66,9 @@ function Pins() {
 
   return (
     <div className={s.root}>
-      <Tabs className={s.tabs} value={time} onChange={(_, value) => changeTimeType(value)}>
-        {
-          TimeTypes.map(type => (
-            <Tab key={type} className={s.tab} label={type} />
-          ))
-        }
-      </Tabs>
+      <Title
+        title="Your calendar"
+      />
       <Calendar
         onDayClick={dayClick}
         date={specificDate}
@@ -81,6 +78,13 @@ function Pins() {
         onLeft={onLeft}
         onRight={onRight}
       />
+      <Tabs className={s.tabs} value={time} onChange={(_, value) => changeTimeType(value)}>
+        {
+          TimeTypes.map(type => (
+            <Tab key={type} className={s.tab} label={type} />
+          ))
+        }
+      </Tabs>
     </div>
   );
 }
