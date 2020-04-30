@@ -9,12 +9,19 @@ const createLabelSchema = Joi.object().keys({
   time: Joi.only(['hour', 'day', 'week', 'month']).required(),
 });
 
+const TimeToInterval = {
+  hour: '1 hour',
+  day: '1 day',
+  week: '1 week',
+  month: '1 month',
+};
+
 router.post('/label', validate(createLabelSchema), logged, async (req, res) => {
   const { user } = req;
-  const { name, color } = req.values;
+  const { name, color, time } = req.values;
 
   try {
-    const newLabel = await db.addLabel(user.id, name, color);
+    const newLabel = await db.addLabel(user.id, name, color, TimeToInterval[time]);
     return res.status(201).send(newLabel);
   } catch (e) {
     console.log(e);

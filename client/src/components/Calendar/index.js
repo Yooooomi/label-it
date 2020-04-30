@@ -1,13 +1,13 @@
 import React, { useCallback } from 'react';
-import s from './index.module.css';
 import cl from 'classnames';
-import { IconButton } from '@material-ui/core';
 import LeftIcon from '@material-ui/icons/KeyboardArrowLeftOutlined';
 import RightIcon from '@material-ui/icons/KeyboardArrowRightOutlined';
+import s from './index.module.css';
 
-Date.prototype.getRealDay = function () {
+// eslint-disable-next-line no-extend-native
+Date.prototype.getRealDay = function getRealDay() {
   return (this.getDay() - 1 + 7) % 7;
-}
+};
 
 function getStartOfMonth(date) {
   const copy = new Date(date.getTime());
@@ -33,13 +33,16 @@ function getStartOfWeek(date) {
 
 const DayNames = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-function Cell({ day, className, pins = [], labelsByKey = {}, size = 1, onClick, displayName }) {
+function Cell({
+  day, className, pins = [], labelsByKey = {}, size = 1, onClick, displayName,
+}) {
+  pins = pins.sort((a, b) => b.priority - a.priority);
   return (
-    <button onClick={onClick} type="button" className={cl('no-button', s.cellcontainer, className)} >
+    <button onClick={onClick} type="button" className={cl('no-button', s.cellcontainer, className)}>
       {
         pins.slice(0, 10).map((pin, idx) => (
           <div
-            key={`${pin.id}${idx}`}
+            key={`${pin.date}`}
             className={s.label}
             style={{
               height: `${10 * size}%`,
@@ -72,6 +75,38 @@ function sameDay(date1, date2) {
     && date1.getDate() === date2.getDate();
 }
 
+function getDaysInInterval(interval, date) {
+  if (interval.hours === 1) {
+    return 1;
+  }
+  if (interval.days === 1) {
+    return 1;
+  }
+  if (interval.days === 7) {
+    return 7;
+  }
+  if (interval.months === 1) {
+    return getDaysInMonth(date);
+  }
+  return null;
+}
+
+function getPriority(interval) {
+  if (interval.hours === 1) {
+    return 0;
+  }
+  if (interval.days === 1) {
+    return 1;
+  }
+  if (interval.days === 7) {
+    return 2;
+  }
+  if (interval.months === 1) {
+    return 3;
+  }
+  return null;
+}
+
 const months = [
   'January',
   'February',
@@ -84,7 +119,7 @@ const months = [
   'September',
   'October',
   'November',
-  'December'
+  'December',
 ];
 
 function Calendar({
@@ -107,7 +142,7 @@ function Calendar({
       base = `${(copy.getDate()).toString().padStart('0', 2)} ${base}`;
     }
     return base;
-  }, [date]);
+  }, [date, type]);
 
   const getStart = useCallback(tmpdate => {
     if (type === 'month') {
@@ -121,10 +156,10 @@ function Calendar({
 
   const start = getStart(date);
 
-  const getGridLength = useCallback(start => {
+  const getGridLength = useCallback(strt => {
     switch (type) {
       case 'month':
-        return start.getRealDay() > 5 ? 42 : 35;
+        return strt.getRealDay() > 5 ? 42 : 35;
       case 'week':
         return 7;
       case 'day':
@@ -132,7 +167,7 @@ function Calendar({
       default:
         return 0;
     }
-  }, [type, start]);
+  }, [type]);
 
   const getDaysSinceStartOfType = useCallback(tmpdate => {
     switch (type) {
@@ -167,26 +202,39 @@ function Calendar({
 
   const sortPins = pins.reduce((acc, curr) => {
     const currDate = new Date(curr.date);
-    const currentKey = getKeyFromDate(currDate);
-    let current = acc[currentKey];
+    let currentKey = getKeyFromDate(currDate);
+    const label = labelsByKey[curr.label_id];
+    const nbTimes = getDaysInInterval(label.duration, currDate);
 
-    if (!current) {
-      current = [];
-      acc[currentKey] = current;
+    for (let i = 0; i < nbTimes; i += 1) {
+      currentKey = getKeyFromDate(currDate);
+      let current = acc[currentKey];
+
+      if (!current) {
+        current = [];
+        acc[currentKey] = current;
+      }
+      curr.priority = getPriority(label.duration);
+      current.push(curr);
+      currDate.setDate(currDate.getDate() + 1);
     }
-
-    current.push(curr);
     return acc;
   }, {});
 
-  let beforeCards = Array(daysSinceStartOfType).fill().map((_, k) => (
-    <Cell className={cl(s.day, s.dayOtherMonth)} day={daysInLastMonth - daysSinceStartOfType + k + 1} />
+  const beforeCards = Array(daysSinceStartOfType).fill().map((_, k) => (
+    <Cell
+      // eslint-disable-next-line react/no-array-index-key
+      key={k}
+      className={cl(s.day, s.dayOtherMonth)}
+      day={daysInLastMonth - daysSinceStartOfType + k + 1}
+    />
   ));
-  let cards = Array(daysToEnd).fill().map((_, k) => {
+  const cards = Array(daysToEnd).fill().map((_, k) => {
     const idxDay = startDayOfMonth + k;
     const thisDate = getDateFromStartAndIndex(start, k);
     return (
       <Cell
+        key={idxDay + daysSinceStartOfType}
         onClick={() => onDayClick(thisDate)}
         labelsByKey={labelsByKey}
         size={0.8}
@@ -199,19 +247,30 @@ function Calendar({
   });
   const afterLength = Math.max(getGridLength(start) - (beforeCards.length + cards.length), 0);
   const afterCards = Array(afterLength).fill().map((_, k) => (
-    <Cell className={cl(s.day, s.dayOtherMonth)} day={k + 1} />
+    <Cell
+      // eslint-disable-next-line react/no-array-index-key
+      key={k + 1 + daysSinceStartOfType + daysToEnd}
+      className={cl(s.day, s.dayOtherMonth)}
+      day={k + 1}
+    />
   ));
   let dayNames = null;
 
   if (displayDays) {
-    dayNames = DayNames.map(day => <Cell className={s.dayname} key={day} day={day} />)
+    dayNames = DayNames.map(day => <Cell className={s.dayname} key={day} day={day} />);
   }
 
   const gridPattern = Math.min(beforeCards.length + cards.length + afterCards.length, 7);
 
   return (
     <div className={s.root}>
-      <button onClick={onLeft} className={s.navbutton}><LeftIcon /></button>
+      <button
+        type="button"
+        onClick={onLeft}
+        className={s.navbutton}
+      >
+        <LeftIcon />
+      </button>
       <div className={s.middle}>
         <div className={s.grid} style={{ gridTemplateColumns: `repeat(${gridPattern}, 1fr)` }}>
           {dayNames}
@@ -223,7 +282,13 @@ function Calendar({
           {getDateString()}
         </div>
       </div>
-      <button onClick={onRight} className={s.navbutton}><RightIcon /></button>
+      <button
+        type="button"
+        onClick={onRight}
+        className={s.navbutton}
+      >
+        <RightIcon />
+      </button>
     </div>
   );
 }

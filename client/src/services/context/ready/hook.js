@@ -1,14 +1,16 @@
-import { useState, useCallback } from "react"
+import { useState, useCallback } from 'react';
 
-export const useReady = () => {
+const useReady = () => {
   const [ready, setStateReady] = useState(null);
 
-  const setReady = useCallback(ready => {
-    setStateReady(ready);
+  const setReady = useCallback(rdy => {
+    setStateReady(rdy);
   }, []);
 
   return {
     ready,
     setReady,
   };
-}
+};
+
+export default useReady;

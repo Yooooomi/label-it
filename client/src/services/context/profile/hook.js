@@ -1,12 +1,14 @@
-import { useState, useCallback } from "react"
-import api from "../../api";
+import { useState, useCallback } from 'react';
+import api from '../../api';
 
 function appendLabelDict(profile) {
   profile.labelsByKey = {};
-  profile.labels.forEach(label => profile.labelsByKey[label.id] = label);
+  profile.labels.forEach(label => {
+    profile.labelsByKey[label.id] = label;
+  });
 }
 
-export const useProfile = () => {
+const useProfile = () => {
   const [profile, setStateProfile] = useState(null);
 
   const setProfile = useCallback(newProfile => {
@@ -28,4 +30,6 @@ export const useProfile = () => {
     setProfile,
     refreshProfile,
   };
-}
+};
+
+export default useProfile;

@@ -1,9 +1,9 @@
 const router = require('express').Router();
-const { validate, logged } = require('../middlewares');
 const Joi = require('joi');
-const db = require('../db');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
+const db = require('../db');
+const { validate, logged } = require('../middlewares');
 const { jwtsecret } = require('../tools/jwt');
 
 const loginSchema = Joi.object().keys({

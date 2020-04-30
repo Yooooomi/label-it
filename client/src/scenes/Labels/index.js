@@ -1,6 +1,5 @@
 import React, { useCallback, useContext } from 'react';
 import s from './index.module.css';
-import { useProfile } from '../../services/context/profile/hook';
 import Label from '../../components/Label';
 import Title from '../../components/Title';
 import api from '../../services/api';
@@ -17,17 +16,17 @@ function Labels() {
     } catch (e) {
       console.error(e);
     }
-  }, []);
+  }, [refreshProfile]);
 
   const onLabel = useCallback(async label => {
     try {
       const date = new Date();
       date.setDate(date.getDate() - 7);
-      //await api.createPin(label.id, date);
+      await api.createPin(label.id, date);
     } catch (e) {
       console.error(e);
     }
-  });
+  }, []);
 
   const deleteLabel = useCallback(async (label) => {
     try {
@@ -43,7 +42,13 @@ function Labels() {
       <Title title="Your labels" subtitle={`${profile.labels.length} total`} />
       {
         profile.labels.map(label => (
-          <Label className={s.label} label={label} key={label.id} onClick={() => onLabel(label)} onDelete={() => deleteLabel(label)} />
+          <Label
+            className={s.label}
+            label={label}
+            key={label.id}
+            onClick={() => onLabel(label)}
+            onDelete={() => deleteLabel(label)}
+          />
         ))
       }
       <CreateLabel onCreate={createLabel} />

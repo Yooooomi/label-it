@@ -1,0 +1,38 @@
+parser: babel-eslint
+settings:
+  pragma: React
+  version: 16.13.1
+  # linkComponents:
+  # - Hyperlink
+  # - name: Link
+  #   linkAttribute: to
+globals:
+  process: true
+  window: true
+env:
+  browser: true
+  jest: true
+  es6: true
+plugins:
+- import
+extends:
+- eslint:recommended
+- airbnb
+- plugin:react/recommended
+- plugin:react-hooks/recommended
+parserOptions:
+  ecmaVersion: 2018
+  sourceType: module
+rules:
+  no-param-reassign: off
+  no-console: warn
+  no-eval: error
+  import/first: error
+  react/prop-types: 'off'
+  react/jsx-filename-extension: 'off'
+  arrow-parens: off
+  react/jsx-props-no-spreading: off
+  react/display-name: off
+  camelcase: off
+  no-underscore-dangle: off
+  jsx-a11y/control-has-associated-label: off

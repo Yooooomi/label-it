@@ -14,7 +14,6 @@ app.use((req, res, next) => {
   if (cors === 'all') {
     res.header('Access-Control-Allow-Origin', origin);
     set = true;
-
   } else if (allcors.indexOf(origin) !== -1) {
     res.header('Access-Control-Allow-Origin', origin);
     set = true;

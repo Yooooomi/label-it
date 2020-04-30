@@ -1,13 +1,13 @@
-import React, { useCallback, useState } from 'react';
-import s from '../index.module.css';
+import React, { useCallback, useState, useContext } from 'react';
 import { Input, Button } from '@material-ui/core';
-import api from '../../../services/api';
 import { withRouter, Link } from 'react-router-dom';
+import s from '../index.module.css';
+import api from '../../../services/api';
 import urls from '../../../services/urls';
-import { useProfile } from '../../../services/context/profile/hook';
+import { profileContext } from '../../../services/context/profile/context';
 
 function Login({ history }) {
-  const { setProfile } = useProfile();
+  const { setProfile } = useContext(profileContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 

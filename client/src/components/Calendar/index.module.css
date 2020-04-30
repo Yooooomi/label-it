@@ -16,6 +16,17 @@
 }
 
 .navbutton {
+  border: none;
+  background: var(--lightgrey);
+  transition: all 250ms;
+}
+
+.navbutton:hover {
+  background: var(--lightgrey-darker);
+}
+
+.navbutton:active {
+  background: var(--lightgrey-dark);
 }
 
 .grid {
@@ -23,6 +34,8 @@
   grid-template-columns: repeat(7, 1fr);
   height: 100%;
   width: 100%;
+  border-top: solid lightgrey 1px;
+  border-left: solid lightgrey 1px;
 }
 
 .footer {
@@ -30,8 +43,10 @@
   align-items: center;
   justify-content: center;
   height: 5%;
-  border: solid lightgrey 2px;
   width: 100%;
+  border-bottom: solid lightgrey 1px;
+  border-left: solid lightgrey 1px;
+  border-right: solid lightgrey 1px;
 }
 
 .cellcontainer {
@@ -56,7 +71,8 @@
 }
 
 .day {
-  border: solid lightgrey 1px;
+  border-bottom: solid lightgrey 1px;;
+  border-right: solid lightgrey 1px;
 }
 
 .dayname {

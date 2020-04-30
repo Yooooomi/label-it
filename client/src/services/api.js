@@ -1,6 +1,6 @@
 
 async function makeRequest(url, options) {
-   const res = await fetch('http://localhost:8081' + url, {
+  const res = await fetch(`http://localhost:8081${url}`, {
     credentials: 'include',
     headers: {
       'content-type': 'application/json',
@@ -11,7 +11,7 @@ async function makeRequest(url, options) {
     throw new Error(res.status);
   }
   if (res.headers.get('content-type') && res.headers.get('content-type').indexOf('application/json') !== -1) {
-    return await res.json();
+    return res.json();
   }
   return null;
 }
@@ -29,12 +29,12 @@ function post(url, body) {
   });
 }
 
-function patch(url, body) {
-  return makeRequest(url, {
-    method: 'PATCH',
-    body: JSON.stringify(body),
-  });
-}
+// function patch(url, body) {
+//   return makeRequest(url, {
+//     method: 'PATCH',
+//     body: JSON.stringify(body),
+//   });
+// }
 
 function delet(url, body) {
   return makeRequest(url, {

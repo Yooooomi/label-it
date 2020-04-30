@@ -1,8 +1,8 @@
 import React, { useState, useCallback } from 'react';
-import s from '../index.module.css';
-import api from '../../../services/api';
 import { Input, Button } from '@material-ui/core';
 import { withRouter, Link } from 'react-router-dom';
+import s from '../index.module.css';
+import api from '../../../services/api';
 import urls from '../../../services/urls';
 
 function Register({ history }) {
@@ -17,7 +17,7 @@ function Register({ history }) {
     } catch (e) {
       console.error(e);
     }
-  }, [username, password]);
+  }, [username, password, history]);
 
   return (
     <div className={s.root}>

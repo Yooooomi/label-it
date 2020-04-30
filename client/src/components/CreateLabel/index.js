@@ -1,7 +1,9 @@
 import React, { useCallback, useState } from 'react';
-import s from './index.module.css';
-import { Input, IconButton, Select, MenuItem, FormControl } from '@material-ui/core';
+import {
+  Input, IconButton, Select, MenuItem, FormControl,
+} from '@material-ui/core';
 import AddIcon from '@material-ui/icons/AddOutlined';
+import s from './index.module.css';
 import { getRandomColor } from '../../services/color';
 
 const timeOptions = [
@@ -25,7 +27,7 @@ function CreateLabel({ onCreate }) {
     ev.preventDefault();
     onCreate(name, color, time);
     generateNewColor();
-  }, [onCreate, name, color, generateNewColor]);
+  }, [onCreate, name, color, time, generateNewColor]);
 
   return (
     <form onSubmit={create} className={s.root}>

@@ -4,11 +4,12 @@ function getLabel(labelId, populate = '') {
   return Label.query().findById(labelId).withGraphFetched(populate);
 }
 
-function addLabel(userId, name, color) {
+function addLabel(userId, name, color, duration) {
   return Label.query().insert({
     user_id: userId,
     name,
     color,
+    duration,
   });
 }
 

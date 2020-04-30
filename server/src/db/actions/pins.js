@@ -5,7 +5,7 @@ function getPin(pinId, populate = '') {
 }
 
 function addPin(labelId, date) {
-  return Pin.query().insert({
+  return Pin.knexQuery().insert({
     label_id: labelId,
     date,
   });

@@ -1,8 +1,10 @@
-import React, { useContext, useEffect, useState, useCallback } from 'react';
+import React, {
+  useContext, useState, useCallback,
+} from 'react';
+import { Tabs, Tab } from '@material-ui/core';
 import s from './index.module.css';
 import { profileContext } from '../../services/context/profile/context';
 import Calendar from '../../components/Calendar';
-import { Tabs, Tab } from '@material-ui/core';
 
 const TimeTypes = [
   'month',
@@ -36,12 +38,12 @@ function Pins() {
   const dayClick = useCallback(day => {
     setSpecificDate(day);
     setTime(2);
-  });
+  }, []);
 
   const changeTimeType = useCallback(value => {
     setTime(value);
     setSpecificDate(new Date());
-  });
+  }, []);
 
   const onNav = useCallback((mult) => {
     if (time === 0) {
@@ -61,14 +63,12 @@ function Pins() {
     onNav(1);
   }, [onNav]);
 
-  console.log(specificDate);
-
   return (
     <div className={s.root}>
-      <Tabs className={s.tabs} value={time} onChange={(_, value) => changeTimeType(value)} >
+      <Tabs className={s.tabs} value={time} onChange={(_, value) => changeTimeType(value)}>
         {
           TimeTypes.map(type => (
-            <Tab className={s.tab} label={type} />
+            <Tab key={type} className={s.tab} label={type} />
           ))
         }
       </Tabs>

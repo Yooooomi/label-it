@@ -1,3 +1,6 @@
+/* eslint-disable no-use-before-define */
+/* eslint-disable max-classes-per-file */
+
 const Knex = require('knex');
 const { Model } = require('objection');
 const knexfile = require('../../../knexfile');
@@ -58,14 +61,6 @@ class Label extends Model {
         join: {
           from: 'labels.pin_id',
           to: 'pins.id',
-        },
-      },
-      user: {
-        modelClass: User,
-        relation: Model.BelongsToOneRelation,
-        join: {
-          from: 'labels.user_id',
-          to: 'users.id',
         },
       },
     };
