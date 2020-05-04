@@ -1,7 +1,7 @@
 FROM node:12-alpine
 WORKDIR /app
 
-RUN apk add python
+RUN apk add python alpine-sdk
 RUN npm install -g nodemon knex
 
 COPY package.json package.json
