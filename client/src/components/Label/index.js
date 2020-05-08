@@ -34,7 +34,7 @@ function Label({
         {
           onDelete && (
             <IconButton onClick={onDelete}>
-              <DeleteIcon />
+              <DeleteIcon style={{ color: fontColor }} />
             </IconButton>
           )
         }

@@ -5,6 +5,7 @@ import Title from '../../components/Title';
 import api from '../../services/api';
 import CreateLabel from '../../components/CreateLabel';
 import { profileContext } from '../../services/context/profile/context';
+import PopupMessage from '../../components/PopupMessage';
 
 function Labels() {
   const { profile, refreshProfile } = useContext(profileContext);
@@ -21,9 +22,23 @@ function Labels() {
   const onLabel = useCallback(async label => {
     try {
       const date = new Date();
-      date.setDate(date.getDate() - 7);
       await api.createPin(label.id, date);
+      window.success(
+        <span>
+          Labelled today with&nbsp;
+          <strong>{label.name}</strong>
+        </span>
+      );
     } catch (e) {
+      console.log(JSON.stringify(e));
+      if (e.status === 409) {
+        window.info(
+          <span>
+            Already labelled today with&nbsp;
+            <strong>{label.name}</strong>
+          </span>
+        );
+      }
       console.error(e);
     }
   }, []);
@@ -34,8 +49,37 @@ function Labels() {
       await refreshProfile();
     } catch (e) {
       console.error(e);
+    } finally {
+      window.closePopup();
     }
   }, [refreshProfile]);
+
+  const archiveLabel = useCallback(async (label) => {
+    try {
+      await api.archiveLabel(label.id, true);
+      await refreshProfile();
+    } catch (e) {
+      console.error(e);
+    } finally {
+      window.closePopup();
+    }
+  }, [refreshProfile]);
+
+  const onDelete = useCallback(label => {
+    window.popup(
+      <span>
+        Delete&nbsp;
+        <strong>{label.name}</strong>
+      </span>,
+      <PopupMessage
+        message="You can decide either to delete this label or archive it to hide all the pins you created with this label"
+        accept="Delete"
+        deny="Archive"
+        onAccept={() => deleteLabel(label)}
+        onDeny={() => archiveLabel(label)}
+      />,
+    );
+  });
 
   return (
     <div className={s.root}>
@@ -47,7 +91,11 @@ function Labels() {
             label={label}
             key={label.id}
             onClick={() => onLabel(label)}
-            onDelete={() => deleteLabel(label)}
+            onDelete={ev => {
+              ev.stopPropagation();
+              ev.preventDefault();
+              onDelete(label);
+            }}
           />
         ))
       }

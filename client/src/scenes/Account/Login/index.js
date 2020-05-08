@@ -17,6 +17,7 @@ function Login({ history }) {
       await api.login(username, password);
       const me = await api.me();
       setProfile(me);
+      window.success('Successfully logged in');
       history.push(urls.labels);
     } catch (e) {
       console.error(e);
@@ -27,10 +28,18 @@ function Login({ history }) {
     <div className={s.root}>
       <div className={s.title}>Login</div>
       <form onSubmit={onSubmit}>
-        <div className={s.entry}><Input fullWidth onChange={ev => setUsername(ev.target.value)} placeholder="username" /></div>
-        <div className={s.entry}><Input fullWidth onChange={ev => setPassword(ev.target.value)} placeholder="password" type="password" /></div>
-        <div className={s.entry}><Button fullWidth type="submit">Login</Button></div>
-        <div className={s.entry}><Link to={urls.account.register}><Button variant="outlined" fullWidth type="submit">Register</Button></Link></div>
+        <div className={s.entry}>
+          <Input fullWidth onChange={ev => setUsername(ev.target.value)} placeholder="username" />
+        </div>
+        <div className={s.entry}>
+          <Input fullWidth onChange={ev => setPassword(ev.target.value)} placeholder="password" type="password" />
+        </div>
+        <div className={s.entry}>
+          <Button fullWidth type="submit">Login</Button>
+        </div>
+        <div className={s.entry}>
+          <Link to={urls.account.register}><Button color="primary" variant="text" fullWidth type="submit">No account, register</Button></Link>
+        </div>
       </form>
     </div>
   );

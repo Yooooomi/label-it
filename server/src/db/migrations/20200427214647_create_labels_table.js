@@ -6,6 +6,7 @@ exports.up = async function (knex) {
     table.string('name');
     table.string('description');
     table.string('color');
+    table.boolean('archived').defaultsTo(false);
     table.specificType('duration', 'interval');
   });
 };

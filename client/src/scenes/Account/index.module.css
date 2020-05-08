@@ -20,3 +20,9 @@
 .entry {
     margin-bottom: var(--margin);
 }
+
+@media only screen and (max-width: 960px) {
+    .root {
+        width: 80%;
+    }
+}

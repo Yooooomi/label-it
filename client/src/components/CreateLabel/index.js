@@ -32,7 +32,7 @@ function CreateLabel({ onCreate }) {
   return (
     <form onSubmit={create} className={s.root}>
       <Input className={s.name} value={name} onChange={ev => setName(ev.target.value)} fullWidth placeholder="Name..." />
-      <FormControl className={s.time}>
+      {/* <FormControl className={s.time}>
         <Select
           value={time}
           onChange={ev => setTime(ev.target.value)}
@@ -43,7 +43,7 @@ function CreateLabel({ onCreate }) {
             ))
           }
         </Select>
-      </FormControl>
+      </FormControl> */}
       <button type="button" onClick={generateNewColor} className={s.color} style={{ background: color }} />
       <IconButton type="submit">
         <AddIcon />

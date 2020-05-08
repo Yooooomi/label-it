@@ -24,7 +24,7 @@ router.post('/label', validate(createLabelSchema), logged, async (req, res) => {
     const newLabel = await db.addLabel(user.id, name, color, TimeToInterval[time]);
     return res.status(201).send(newLabel);
   } catch (e) {
-    console.log(e);
+    console.error(e);
     return res.status(500).end();
   }
 });
@@ -36,6 +36,23 @@ router.delete('/label/:labelId', logged, withLabel('params'), async (req, res) =
     await db.removeLabel(label.id);
     return res.status(204).end();
   } catch (e) {
+    return res.status(500).end();
+  }
+});
+
+const archiveLabelSchema = Joi.object().keys({
+  archive: Joi.bool().required(),
+});
+
+router.put('/label/:labelId/archive', validate(archiveLabelSchema), logged, withLabel('params'), async (req, res) => {
+  const { archive } = req.values;
+  const { label } = req;
+
+  try {
+    await db.archiveLabel(label.id, archive);
+    return res.status(204).end();
+  } catch (e) {
+    console.error(e);
     return res.status(500).end();
   }
 });

@@ -17,8 +17,15 @@ function removeLabel(labelId) {
   return Label.query().deleteById(labelId);
 }
 
+function archiveLabel(labelId, status) {
+  return Label.query().findById(labelId).patch({
+    archived: status,
+  });
+}
+
 module.exports = {
   getLabel,
   addLabel,
   removeLabel,
+  archiveLabel,
 };

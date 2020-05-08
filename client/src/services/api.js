@@ -7,8 +7,11 @@ async function makeRequest(url, options) {
     },
     ...options,
   });
+  console.log(res);
   if (!(res.status >= 200 && res.status < 300)) {
-    throw new Error(res.status);
+    const err = new Error(`Request failed with code ${res.status}`);
+    Object.assign(err, { response: res, status: res.status });
+    throw err;
   }
   if (res.headers.get('content-type') && res.headers.get('content-type').indexOf('application/json') !== -1) {
     return res.json();
@@ -29,12 +32,12 @@ function post(url, body) {
   });
 }
 
-// function patch(url, body) {
-//   return makeRequest(url, {
-//     method: 'PATCH',
-//     body: JSON.stringify(body),
-//   });
-// }
+function put(url, body) {
+  return makeRequest(url, {
+    method: 'PUT',
+    body: JSON.stringify(body),
+  });
+}
 
 function delet(url, body) {
   return makeRequest(url, {
@@ -49,6 +52,14 @@ export default {
   register: (username, password) => post('/register', { username, password }),
   createLabel: (name, color, time) => post('/label', { name, color, time }),
   deleteLabel: (labelId) => delet(`/label/${labelId}`),
+  archiveLabel: (labelId, archive) => put(`/label/${labelId}/archive`, {
+    archive,
+  }),
   createPin: (labelId, date) => post('/pin', { labelId, date }),
   deletePin: (pinId) => delet(`/pin/${pinId}`),
+  getGlobalSettings: () => get('/global_settings'),
+  setGlobalSettings: (newRegisters) => put('/global_settings', {
+    newRegisters,
+  }),
+  setSettings: () => put(`/settings`),
 };

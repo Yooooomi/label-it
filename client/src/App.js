@@ -13,6 +13,9 @@ import Labels from './scenes/Labels';
 import PrivateRoute from './components/PrivateRoute';
 import api from './services/api';
 import Pins from './scenes/Pins';
+import Message from './components/Message';
+import Settings from './scenes/Settings';
+import Popup from './components/Popup';
 
 function App() {
   const { setProfile } = useContext(profileContext);
@@ -36,6 +39,8 @@ function App() {
   return (
     <MuiThemeProvider theme={theme}>
       <Router>
+        <Message />
+        <Popup />
         <div className="App">
           <Layout>
             <Switch>
@@ -43,7 +48,7 @@ function App() {
               <Route exact path={urls.account.register} component={Register} />
               <PrivateRoute exact path={urls.pins} component={Pins} />
               <PrivateRoute exact path={urls.labels} component={Labels} />
-              <PrivateRoute exact path={urls.settings} component={Labels} />
+              <PrivateRoute exact path={urls.settings} component={Settings} />
             </Switch>
           </Layout>
         </div>

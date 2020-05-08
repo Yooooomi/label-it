@@ -3,7 +3,7 @@ const Joi = require('joi');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const db = require('../db');
-const { validate, logged } = require('../middlewares');
+const { validate, logged, withGlobalSettings } = require('../middlewares');
 const { jwtsecret } = require('../tools/jwt');
 
 const loginSchema = Joi.object().keys({
@@ -38,8 +38,12 @@ const registerSchema = Joi.object().keys({
   password: Joi.string().required(),
 });
 
-router.post('/register', validate(registerSchema), async (req, res) => {
+router.post('/register', validate(registerSchema), withGlobalSettings, async (req, res) => {
   const { username, password } = req.values;
+
+  if (req.globalSettings.new_registers === false) {
+    return res.status(423).end();
+  }
 
   try {
     const alreadyExisting = await db.getUserByUsername(username);

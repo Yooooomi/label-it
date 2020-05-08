@@ -2,6 +2,7 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const bodyparser = require('body-parser');
+const db = require('./db');
 
 const app = express();
 
@@ -41,5 +42,20 @@ app.use(bodyparser.json());
 app.use(require('./routes/user'));
 app.use(require('./routes/label'));
 app.use(require('./routes/pin'));
+app.use(require('./routes/settings'));
+
+async function startup() {
+  try {
+    const settings = await db.getGlobalSettings();
+    if (!settings) {
+      await db.createGlobalSettings();
+    }
+  } catch (e) {
+    console.error(e);
+    process.exit(1);
+  }
+}
+
+startup();
 
 module.exports = app;

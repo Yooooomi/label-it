@@ -3,7 +3,6 @@ const db = require('../db');
 const { jwtsecret } = require('../tools/jwt');
 
 const logged = async (req, res, next) => {
-  console.log(req.cookies);
   const { token } = req.cookies;
 
   try {
@@ -14,7 +13,7 @@ const logged = async (req, res, next) => {
     if (!decoded) {
       return res.status(401).end();
     }
-    const user = await db.getUser(decoded.id, '[labels,pins]');
+    const user = await db.getUser(decoded.id, '[labels(notArchived),pins]');
     req.user = user;
     return next();
   } catch (e) {

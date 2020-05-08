@@ -1,0 +1,15 @@
+.root {
+    color: grey;
+    font-size: 1.1em;
+}
+
+.buttons {
+    margin-top: var(--margin);
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.buttons > * {
+    margin-left: var(--margin);
+}

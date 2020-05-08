@@ -9,6 +9,12 @@ const knex = Knex(knexfile);
 
 Model.knex(knex);
 
+class GlobalSettings extends Model {
+  static get tableName() {
+    return 'global_settings';
+  }
+}
+
 class User extends Model {
   static get tableName() {
     return 'users';
@@ -43,6 +49,14 @@ class User extends Model {
 class Label extends Model {
   static get tableName() {
     return 'labels';
+  }
+
+  static get modifiers() {
+    return {
+      notArchived(builder) {
+        builder.where('archived', false);
+      },
+    };
   }
 
   static relationMappings() {
@@ -100,6 +114,7 @@ class Pin extends Model {
 
 module.exports = {
   Model,
+  GlobalSettings,
   User,
   Label,
   Pin,
