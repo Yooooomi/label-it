@@ -28,9 +28,14 @@ router.post('/login', validate(loginSchema), async (req, res) => {
 
     return res.status(200).send(req.user);
   } catch (e) {
-    console.log(e);
+    console.error(e);
     return res.status(500).end();
   }
+});
+
+router.post('/logout', async (req, res) => {
+  res.clearCookie('token');
+  return res.status(204).end();
 });
 
 const registerSchema = Joi.object().keys({
@@ -55,7 +60,7 @@ router.post('/register', validate(registerSchema), withGlobalSettings, async (re
     await db.addUser(username, hashedPassword);
     return res.status(201).end();
   } catch (e) {
-    console.log(e);
+    console.error(e);
     return res.status(500).end();
   }
 });

@@ -12,7 +12,9 @@ const useProfile = () => {
   const [profile, setStateProfile] = useState(null);
 
   const setProfile = useCallback(newProfile => {
-    appendLabelDict(newProfile);
+    if (newProfile) {
+      appendLabelDict(newProfile);
+    }
     setStateProfile(newProfile);
   }, []);
 

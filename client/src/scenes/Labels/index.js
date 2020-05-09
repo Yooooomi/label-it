@@ -27,16 +27,15 @@ function Labels() {
         <span>
           Labelled today with&nbsp;
           <strong>{label.name}</strong>
-        </span>
+        </span>,
       );
     } catch (e) {
-      console.log(JSON.stringify(e));
       if (e.status === 409) {
         window.info(
           <span>
             Already labelled today with&nbsp;
             <strong>{label.name}</strong>
-          </span>
+          </span>,
         );
       }
       console.error(e);

@@ -8,7 +8,7 @@ const withGlobalSettings = async (req, res, next) => {
   } catch (e) {
     return res.status(500).end();
   }
-}
+};
 
 module.exports = {
   withGlobalSettings,

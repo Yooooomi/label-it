@@ -7,7 +7,6 @@ async function makeRequest(url, options) {
     },
     ...options,
   });
-  console.log(res);
   if (!(res.status >= 200 && res.status < 300)) {
     const err = new Error(`Request failed with code ${res.status}`);
     Object.assign(err, { response: res, status: res.status });
@@ -49,6 +48,7 @@ function delet(url, body) {
 export default {
   me: () => get('/me'),
   login: (username, password) => post('/login', { username, password }),
+  logout: () => post('/logout'),
   register: (username, password) => post('/register', { username, password }),
   createLabel: (name, color, time) => post('/label', { name, color, time }),
   deleteLabel: (labelId) => delet(`/label/${labelId}`),
@@ -61,5 +61,5 @@ export default {
   setGlobalSettings: (newRegisters) => put('/global_settings', {
     newRegisters,
   }),
-  setSettings: () => put(`/settings`),
+  setSettings: () => put('/settings'),
 };
